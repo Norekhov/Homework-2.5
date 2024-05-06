@@ -6,45 +6,47 @@ import com.workgroup.employee.exception.EmployeeNotFoundException;
 import com.workgroup.employee.exception.EmployeeStorageIsFullException;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class EmployeeService {
     private final int maxEmployees = 10;
-    private final List<Employee> employees = new ArrayList<>();
+    private final Map<String, Employee> employees = new HashMap<>();
 
     public Employee add(String firstName, String lastName) {
-        Employee employee = new Employee(firstName, lastName);
-        if (employees.contains(employee)) {
+        String key = key(firstName, lastName);
+        if (employees.containsKey(key)) {
             throw new EmployeeAlreadyAddedException();
         }
         if (employees.size() > maxEmployees) {
             throw new EmployeeStorageIsFullException();
         }
-        employees.add((employee));
+        Employee employee = new Employee(firstName, lastName);
+        employees.put(key, employee);
         return employee;
     }
 
     public Employee remove(String firstName, String lastName) {
-        Employee employee = new Employee(firstName, lastName);
-        if (!employees.contains(employee)) {
+        String key = key(firstName, lastName);
+        if (!employees.containsKey(key)) {
             throw new EmployeeNotFoundException();
         }
-        employees.remove(employee);
-        return employee;
+        return employees.remove(key);
     }
 
     public Employee find(String firstName, String lastName) {
-        Employee employee = new Employee(firstName, lastName);
-        if (!employees.contains(employee)) {
+        String key = key(firstName, lastName);
+        if (!employees.containsKey(key)) {
             throw new EmployeeNotFoundException();
         }
-        return employee;
+        return employees.get(key);
+    }
+
+    public String key (String firstName, String lastName) {
+        return firstName + lastName;
     }
 
     public List<Employee> findAll() {
-        return Collections.unmodifiableList(employees);
+        return List.copyOf(employees.values());
     }
 }
