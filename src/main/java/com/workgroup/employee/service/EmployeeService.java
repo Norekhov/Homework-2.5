@@ -4,16 +4,17 @@ import com.workgroup.employee.Employee.Employee;
 import com.workgroup.employee.exception.EmployeeAlreadyAddedException;
 import com.workgroup.employee.exception.EmployeeNotFoundException;
 import com.workgroup.employee.exception.EmployeeStorageIsFullException;
+import com.workgroup.employee.intetface.EmployeeServiceInterface;
 import org.springframework.stereotype.Service;
 
 import java.util.*;
 
 @Service
-public class EmployeeService {
+public class EmployeeService implements EmployeeServiceInterface {
     private final int maxEmployees = 10;
     private final Map<String, Employee> employees = new HashMap<>();
 
-    public Employee add(String firstName, String lastName) {
+    public Employee add(String firstName, String lastName, Integer department, Integer salary) {
         String key = key(firstName, lastName);
         if (employees.containsKey(key)) {
             throw new EmployeeAlreadyAddedException();
@@ -21,7 +22,7 @@ public class EmployeeService {
         if (employees.size() > maxEmployees) {
             throw new EmployeeStorageIsFullException();
         }
-        Employee employee = new Employee(firstName, lastName);
+        Employee employee = new Employee(firstName, lastName, department, salary);
         employees.put(key, employee);
         return employee;
     }
@@ -42,11 +43,11 @@ public class EmployeeService {
         return employees.get(key);
     }
 
-    public String key (String firstName, String lastName) {
+    public String key(String firstName, String lastName) {
         return firstName + lastName;
     }
 
-    public List<Employee> findAll() {
-        return List.copyOf(employees.values());
+    public Collection<Employee> findAll() {
+        return employees.values();
     }
 }
