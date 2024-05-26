@@ -1,0 +1,16 @@
+package com.workgroup.employee.service;
+
+import com.workgroup.employee.exception.ValidationException;
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.stereotype.Service;
+
+@Service
+public class ValidationService {
+
+    public static String validationName(String name) {
+        if (!StringUtils.isAlpha(name)) {
+            throw new ValidationException();
+        }
+        return StringUtils.capitalize(name.toLowerCase());
+    }
+}

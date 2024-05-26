@@ -2,7 +2,6 @@ package com.workgroup.employee.controller;
 
 import com.workgroup.employee.Employee.Employee;
 import com.workgroup.employee.service.DepartmentService;
-import com.workgroup.employee.service.EmployeeService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;

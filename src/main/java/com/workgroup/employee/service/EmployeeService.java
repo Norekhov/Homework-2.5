@@ -15,6 +15,8 @@ public class EmployeeService implements EmployeeServiceInterface {
     private final Map<String, Employee> employees = new HashMap<>();
 
     public Employee add(String firstName, String lastName, Integer department, Integer salary) {
+        firstName = ValidationService.validationName(firstName);
+        lastName = ValidationService.validationName(lastName);
         String key = key(firstName, lastName);
         if (employees.containsKey(key)) {
             throw new EmployeeAlreadyAddedException();
