@@ -1,6 +1,6 @@
 package com.workgroup.employee.controller;
 
-import com.workgroup.employee.Employee.Employee;
+import com.workgroup.employee.model.Employee;
 import com.workgroup.employee.service.EmployeeService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -9,8 +9,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import java.util.Collection;
 
-@RequestMapping("/employee")
 @RestController
+@RequestMapping("/employees")
 public class EmployeeController {
 
     private final EmployeeService employeeService;
@@ -20,23 +20,23 @@ public class EmployeeController {
     }
 
     @GetMapping("/add")
-    public Employee add(@RequestParam String firstName,
-                        @RequestParam String lastName,
-                        @RequestParam Integer department,
-                        @RequestParam Integer salary) {
-        return employeeService.add(firstName, lastName, department, salary);
-    }
-
-    @GetMapping("/remove")
-    public Employee remove(@RequestParam String firstName,
-                           @RequestParam String lastName) {
-        return employeeService.remove(firstName, lastName);
+    public Employee add(@RequestParam String name,
+                        @RequestParam String surname,
+                        @RequestParam int salary,
+                        @RequestParam int depatrment) {
+        return employeeService.add(name, surname, salary, depatrment);
     }
 
     @GetMapping("/find")
-    public Employee find(@RequestParam String firstName,
-                         @RequestParam String lastName) {
-        return employeeService.find(firstName, lastName);
+    public Employee find(@RequestParam String name,
+                        @RequestParam String surname) {
+        return employeeService.find(name, surname);
+    }
+
+    @GetMapping("/remove")
+    public Employee remove(@RequestParam String name,
+                        @RequestParam String surname) {
+        return employeeService.remove(name, surname);
     }
 
     @GetMapping

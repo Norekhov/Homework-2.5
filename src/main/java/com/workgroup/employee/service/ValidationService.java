@@ -6,8 +6,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public class ValidationService {
-
-    public static String validationName(String name) {
+    public String validate(String name) {
         if (!StringUtils.isAlpha(name)) {
             throw new ValidationException();
         }
